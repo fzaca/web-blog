@@ -1,0 +1,68 @@
+{% extends './base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block custom_css %}
+{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-primary" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="col-md-12">
+  <h3 class="pb-4 mb-4 fst-italic border-bottom">
+    {{ user.username }} posts
+  </h3>
+
+  <table id="datatablesSimple" class="table align-middle table-hover">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Category</th>
+        <th>Created at</th>
+        <th>View</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Category</th>
+        <th>Created at</th>
+        <th>View</th>
+      </tr>
+    </tfoot>
+    <tbody>
+      {% for post in user_posts %}
+      <tr>
+        <td>
+          <p class="fw-bold mb-1">{{ post.title }}</p>
+        </td>
+        <td>{{ post.content | truncate(40, end='...') }}</td>
+        <td><span class="badge bg-secondary">{{ post.category }}</span></td>
+        <td>
+          <p class="fw-normal mb-1">Created at</p>
+          <p class="text-muted mb-0">{{ post.created_at }}</p>
+        </td>
+        <td>
+          <a href="{{ url_for('blog.show_post', post_id=post.id) }}" class="btn btn-link btn-sm px-3" data-ripple-color="dark">
+            <i class="fa-solid fa-book-open"></i>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
+
+{% endblock %}

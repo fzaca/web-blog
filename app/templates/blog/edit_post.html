@@ -1,0 +1,61 @@
+{% extends './base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block custom_css %}
+{% endblock %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-primary" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="col-md-12">
+    <div
+        class="g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative p-3">
+
+        <h1 class="mb-4 fst-italic">Edit post</h1>
+        <form method="POST" action="{{ url_for('blog.edit_post', post_id=post.id) }}">
+            <div class="form-group mb-1">
+                <label for="title">Title:</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{ post.title }}"
+                    required>
+            </div>
+            <div class="form-group mb-1">
+                <label for="content">Content:</label>
+                <textarea class="form-control" id="content" name="content"
+                    rows="6"
+                    required>{{ post.content }}</textarea>
+            </div>
+            <div class="form-group mb-4">
+                <label for="category">Category:</label>
+                <select class="form-control" id="category" name="category"
+                    required>
+                    <option value disabled>Choise category</option>
+                    {% for category in categories %}
+
+                    {% if category.id == post.category_id %}
+                        <option value="{{ category.id }}" selected>{{ category.name }}</option>
+                    {% else %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endif %}
+                    
+                   {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-outline-primary">
+                <i class="fa-solid fa-check-to-slot"></i>
+                Create post</button>
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}

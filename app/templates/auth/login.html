@@ -1,0 +1,68 @@
+{% extends './base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block custom_css %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5">
+                <div class="card border-1 rounded-lg mt-5">
+                    <div class="card-header"><h3
+                            class="text-center font-weight-light my-4">Login</h3></div>
+                    <div class="card-body">
+                        
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-primary" role="alert">
+                                {{ message }} 
+                            </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                        <form method="post">
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="inputUsername"
+                                    type="text" placeholder="username"
+                                    name="username" required/>
+                                <label for="inputEmail">Username</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="inputPassword"
+                                    type="password" placeholder="Password"
+                                    name="password" required/>
+                                <label for="inputPassword">Password</label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input"
+                                    id="inputRememberPassword" 
+                                    name="remember" type="checkbox"
+                                    value />
+                                <label class="form-check-label"
+                                    for="inputRememberPassword">Remember
+                                    Password</label>
+                            </div>
+                            <div
+                                class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                <a class="small link-secondary" href="password.html">Forgot
+                                    Password?</a>
+                                <input type="submit" id="send-signup"
+                                    name="signup" value="Login"
+                                    class="btn btn-sm btn-outline-secondary p-2" />
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center py-3">
+                        <div class="small"><a class="link-secondary"
+                                href="{{ url_for('auth.register') }}">Need an
+                                account? Sign up!</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

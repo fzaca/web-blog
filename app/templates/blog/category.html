@@ -1,0 +1,98 @@
+{% extends './base.html' %}
+
+{% block title %}{% endblock %}
+
+{% block custom_css %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row g-5">
+  <div class="col-md-8">
+    <h3 class="pb-4 mb-4 fst-italic border-bottom">
+      {{ category.name }}
+    </h3>
+
+    <table id="datatablesSimple" class="table align-middle table-hover">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Content</th>
+          <th>Created at</th>
+          <th>Edit</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th>Title</th>
+          <th>Content</th>
+          <th>Created at</th>
+          <th>Edit</th>
+        </tr>
+      </tfoot>
+      <tbody>
+        {% for post in posts %}
+        <tr>
+          <td>
+            <p class="fw-bold mb-1">{{ post.title }}</p>
+          </td>
+          <td>{{ post.content | truncate(40, end='...') }}</td>
+          <td>
+            <p class="fw-normal mb-1">Created at</p>
+            <p class="text-muted mb-0">{{ post.created_at }}</p>
+          </td>
+          <td>
+            <a href="{{ url_for('blog.show_post', post_id=post.id) }}" class="btn btn-link btn-sm px-3" data-ripple-color="dark">
+              <i class="fa-solid fa-book-open"></i>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="col-md-4">
+    <div class="position-sticky" style="top: 2rem;">
+      <div class="p-4 mb-3 bg-light rounded">
+        <h4 class="fst-italic">About</h4>
+        <p class="mb-0">Lorem ipsum dolor sit amet consectetur, adipisicing
+          elit. Aperiam omnis veritatis sapiente eaque, voluptates quisquam
+          repellat culpa tempore quas velit nulla doloribus quos, iusto neque
+          debitis ab aspernatur veniam. Nostrum dolor culpa maxime. Optio hic
+          velit pariatur perferendis veritatis ipsa reiciendis labore dolorem
+          culpa.</p>
+      </div>
+
+      <div class="p-4">
+        <h4 class="fst-italic">Archives</h4>
+        <ol class="list-unstyled mb-0">
+          <li><a href="#">March 2021</a></li>
+          <li><a href="#">February 2021</a></li>
+          <li><a href="#">January 2021</a></li>
+          <li><a href="#">December 2020</a></li>
+          <li><a href="#">November 2020</a></li>
+          <li><a href="#">October 2020</a></li>
+          <li><a href="#">September 2020</a></li>
+          <li><a href="#">August 2020</a></li>
+          <li><a href="#">July 2020</a></li>
+          <li><a href="#">June 2020</a></li>
+          <li><a href="#">May 2020</a></li>
+          <li><a href="#">April 2020</a></li>
+        </ol>
+      </div>
+
+      <div class="p-4">
+        <h4 class="fst-italic">Elsewhere</h4>
+        <ol class="list-unstyled">
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
