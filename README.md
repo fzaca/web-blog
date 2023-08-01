@@ -14,7 +14,7 @@ $ pip install -r requirements.txt
 5. Abra la terminal y ejecute los siguientes comandos para crear la base de datos:
 ```
 flask db init
-flask db migrate -m "Message"
+flask db migrate
 flask db upgrade
 ```
 

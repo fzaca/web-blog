@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, current_app
 from app.models import Category
 from app.extensions import db
 
@@ -11,27 +11,27 @@ def inject_categories():
     categories = Category.query.all()
     return dict(categories=categories)
 
+@bp.before_app_request
 def create_categories():
-    if not Category.query.first():
-        categories = [
-            'World',
-            'Technology',
-            'Design',
-            'Culture',
-            'Business',
-            'Politics',
-            'Opinion',
-            'Science',
-            'Health',
-            'Style',
-            'Travel',
-            'Fitness',
-        ]
+    with current_app.app_context():
+        if not Category.query.first():
+            categories = [
+                'World',
+                'Technology',
+                'Design',
+                'Culture',
+                'Business',
+                'Politics',
+                'Opinion',
+                'Science',
+                'Health',
+                'Style',
+                'Travel',
+                'Fitness',
+            ]
 
-        for category_name in categories:
-            category = Category(name=category_name)
-            db.session.add(category)
+            for category_name in categories:
+                category = Category(name=category_name)
+                db.session.add(category)
 
-        db.session.commit()
-
-create_categories()
+            db.session.commit()
