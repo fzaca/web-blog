@@ -27,33 +27,5 @@ def create_app(config_class=Config):
     def test_page():
         return '<h1>Testing the Flask Application Factory Pattern</h1>'
 
-    # Charge categories
-    with app.app_context():
-        if not Category.query.first():
-            load_categories()
-
     return app
 
-def load_categories():
-    categories = [
-        {'name': 'World'},
-        {'name': 'Technology'},
-        {'name': 'Design'},
-        {'name': 'Culture'},
-        {'name': 'Business'},
-        {'name': 'Politics'},
-        {'name': 'Opinion'},
-        {'name': 'Science'},
-        {'name': 'Health'},
-        {'name': 'Style'},
-        {'name': 'Travel'},
-        {'name': 'Fitness'},
-    ]
-
-    from app.models import Category
-
-    for category_data in categories:
-        category = Category(**category_data)
-        db.session.add(category)
-
-    db.session.commit()
