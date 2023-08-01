@@ -19,11 +19,14 @@
       {% if author.username == user.username %}
       <div class="col-8 col-sm-6 col-md-4">
         <nav class="blog-pagination" aria-label="Pagination">
-          <a class="btn btn-outline-primary" href="{{ url_for('blog.edit_post', post_id=post.id) }}">
+          <a class="btn btn-outline-primary"
+            href="{{ url_for('blog.edit_post', post_id=post.id) }}">
             <i class="fa-regular fa-pen-to-square fa-lg"></i>
             Edit
           </a>
-          <a class="btn btn-outline-danger" href="{{ url_for('blog.delete_post', post_id=post.id) }}" tabindex="-1" aria-disabled="true">
+          <a class="btn btn-outline-danger"
+            href="{{ url_for('blog.delete_post', post_id=post.id) }}"
+            tabindex="-1" aria-disabled="true">
             <i class="fa-solid fa-trash fa-lg"></i>
             Delete
           </a>
@@ -36,6 +39,51 @@
     <p>
       {{ post.content }}
     </p>
+
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-12">
+        <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+          <div class="card-body p-4">
+            <form class="row" method="post"
+              action="{{ url_for('blog.add_comment', post_id=post.id) }}">
+              <div class="form-outline col-9 mb-4">
+                <input type="text" id="addANote" class="form-control"
+                  name="comment" placeholder="Type comment..." />
+              </div>
+              <div class="col-3">
+                <button type="submit" class="btn btn-primary w-100">Add</button>
+              </div>
+            </form>
+
+            {% for comment in comments %}
+            <div class="card mb-4">
+              <div class="card-body">
+                <p>{{ comment.content }}</p>
+
+                <div class="d-flex justify-content-between">
+
+                  <div class="d-flex flex-row align-items-center">
+                    <p class="small mb-0 ms-2">Comment by
+                      <a
+                        href="{{ url_for('blog.show_user_posts', username=author.username) }}">
+                        @{{ comment.author_username }}
+                      </a>
+                    </p>
+                  </div>
+
+                  <div class="d-flex flex-row align-items-center">
+                    <p class="small text-muted mb-0">Created at {{ comment.created_at }}</p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 

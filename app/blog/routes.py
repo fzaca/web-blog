@@ -1,7 +1,7 @@
 from flask import render_template, request, g, flash, abort, redirect, url_for
 from app.blog import bp
 from app.extensions import db
-from app.models import Category, Post, User
+from app.models import Category, Post, User, Comment
 from app.auth import login_required
 from app.helpers import row_to_dict
 
@@ -61,7 +61,18 @@ def show_user_posts(username):
 def show_post(post_id):
     post = Post.query.get_or_404(post_id)
     author = User.query.get_or_404(post.author_id)
-    return render_template('blog/post.html', post=post, author=author)
+
+    comments = Comment.query.filter_by(post_id=post.id)
+    comments_dicts = []
+    for comment in comments:
+        user = User.query.get_or_404(comment.author_id)
+        comment = row_to_dict(comment)
+        comment['author_username'] = user.username
+        comments_dicts.append(comment)
+
+    comments_dicts.reverse()
+
+    return render_template('blog/post.html', post=post, author=author, comments=comments_dicts)
 
 @bp.route('/edit_post/<int:post_id>', methods=['GET', 'POST'])
 @login_required
@@ -95,3 +106,21 @@ def delete_post(post_id):
     flash('The post has been successfully deleted.')
 
     return redirect(url_for('blog.show_user_posts', username=g.user.username))
+
+@bp.route('/add_comment/<int:post_id>', methods=['POST'])
+@login_required
+def add_comment(post_id):
+    content = request.form['comment']
+
+    new_comment = Comment(
+        content = content,
+        author_id = g.user.id,
+        post_id = post_id,
+    )
+
+    db.session.add(new_comment)
+    db.session.commit()
+
+    return redirect(url_for('blog.show_post', post_id=post_id))
+
+
